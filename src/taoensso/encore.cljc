@@ -45,7 +45,6 @@
       [clojure.java.io :as io]
       [clojure.walk    :as walk :refer [macroexpand-all]]
       ;; [clojure.core.async    :as async]
-      [clojure.tools.reader.edn :as edn]
       [taoensso.truss :as truss])
 
      :cljs
@@ -54,7 +53,6 @@
       [clojure.set         :as set]
       ;; [cljs.core.async  :as async]
       [cljs.reader]
-      [cljs.tools.reader.edn :as edn]
       ;;[goog.crypt.base64 :as base64]
       [goog.object         :as gobj]
       [goog.array          :as garray]
@@ -481,8 +479,8 @@
 
              opts (assoc opts :readers readers :default default)]
 
-         #?(:clj  (clojure.tools.reader.edn/read-string opts s)
-            :cljs    (cljs.tools.reader.edn/read-string opts s)))))))
+         #?(:clj  ((requiring-resolve 'clojure.tools.reader.edn/read-string) opts s)
+            :cljs    ((requiring-resolve 'cljs.tools.reader.edn/read-string) opts s)))))))
 
 (defn pr-edn
   "Prints arg to an edn string readable with `read-edn`."
